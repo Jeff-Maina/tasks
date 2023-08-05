@@ -10,10 +10,13 @@ const Dashboard = () => {
       </Head>
 
       <main className="w-full min-h-screen h-screen flex">
-        <section className="h-full border w-60 absolute overflow-hidden">
-            <Sidebar/>
+        <section className="h-full border-r w-60 relative overflow-hidden">
+          <Sidebar />
         </section>
-        <section className="h-full  flex-grow"></section>
+        <section className="h-full flex-grow">
+          <NavBar />
+          <MainBody />
+        </section>
       </main>
     </>
   );
@@ -118,9 +121,11 @@ const Sidebar = () => {
 
   return (
     <>
-      <header className="w-full h-16 border-b "></header>
-      <section className="w-full h-auto p-3">
-        <h1 className="font-poppins text-[16px] my-4 font-semibold text-[#222]">
+      <header className="w-full h-16 border-b flex items-center pl-6">
+        <p className="text-[2rem] font-medium">Lovely</p>
+      </header>
+      {/* <section className="w-full h-auto p-3">
+        <h1 className="font- text-[16px] my-4 font-semibold text-[#222]">
           General
         </h1>
         <div className="w-full h-10  border-zinc-300 flex items-center px-3 rounded  cursor-pointer gap-4 hover:bg-light-hover">
@@ -141,7 +146,7 @@ const Sidebar = () => {
               ></path>
             </svg>
           </div>
-          <h1 className="font-poppins  font-medium text-[#333]">Home</h1>
+          <h1 className="font-lexend text-[16px]  text-[#333]">Home</h1>
         </div>
         <div className="w-full h-10  border-zinc-300 flex items-center px-3 rounded  cursor-pointer gap-4 hover:bg-light-hover">
           <div className="w-6 grid place-items-center">
@@ -155,7 +160,7 @@ const Sidebar = () => {
               <path d="M6.905 5.831A1 1 0 0 0 5.632 4.29a9.971 9.971 0 0 0-2.523 3.128 1 1 0 0 0 1.778.918 7.999 7.999 0 0 1 2.018-2.505zM14 11h-1V9a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1h2a1 1 0 0 0 0-2z"></path>
             </svg>
           </div>
-          <h1 className="font-poppins  font-medium text-[#333]">Reminders</h1>
+          <h1 className="font-lexend text-[16px]  text-[#333]">Reminders</h1>
         </div>
         <div className="w-full h-10  border-zinc-300 flex items-center px-3 rounded  cursor-pointer gap-4 hover:bg-light-hover">
           <div className="w-6 grid place-items-center">
@@ -172,7 +177,7 @@ const Sidebar = () => {
               <path d="M38.5 22.97983h-22a2.00021 2.00021 0 0 0 .00009 4H38.5A2.00021 2.00021 0 0 0 38.5 22.97983zM38.5 32.97983h-22a2.00021 2.00021 0 0 0 .00009 4H38.5A2.00021 2.00021 0 0 0 38.5 32.97983zM38.5 41.97983a2.00019 2.00019 0 0 0 .00008 4A2.00019 2.00019 0 0 0 38.5 41.97983zM30.5 41.97983a2.00021 2.00021 0 0 0 .00009 4A2.00021 2.00021 0 0 0 30.5 41.97983z"></path>
             </svg>
           </div>
-          <h1 className="font-poppins  font-medium text-[#333]">Notes</h1>
+          <h1 className="font-lexend text-[16px]  text-[#333]">Notes</h1>
         </div>
         <div className="w-full h-10  flex items-center px-3 rounded mb-2 cursor-pointer gap-4 hover:bg-light-hover">
           <div className="w-6 grid place-items-center">
@@ -188,19 +193,16 @@ const Sidebar = () => {
               <path d="M9 16h2c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1zm0-4h6c.6 0 1-.4 1-1s-.4-1-1-1H9c-.6 0-1 .4-1 1s.4 1 1 1z"></path>
             </svg>
           </div>
-          <h1 className="font-poppins  font-medium text-[#333]">Tasks</h1>
+          <h1 className="font-lexend text-[16px]  text-[#333]">Tasks</h1>
         </div>
-      </section>
-      <section className="h-auto w-full p-3 pt-0 pr-1">
+      </section> */}
+      <section className="h-auto w-full p-3 pt-0 pr-1 mt-10">
         <div
           onClick={() => {
             setProjectsVisible(!areProjectvisible);
           }}
-          className="w-full flex items-center gap-1 cursor-pointer justify-between pr-4"
+          className="w-full flex items-center gap-1 cursor-pointer"
         >
-          <h1 className="font-poppins text-[16px] font-semibold text-[#222]">
-            All projects
-          </h1>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -221,6 +223,9 @@ const Sidebar = () => {
               </g>
             </svg>
           </div>
+          <h1 className="font- text-[16px] font-semibold text-[#222]">
+            All projects
+          </h1>
         </div>
         <AnimatePresence>
           {areProjectvisible && (
@@ -239,11 +244,11 @@ const Sidebar = () => {
               {projects.map((project, index) => (
                 <motion.div className="w-[98%] h-12  border-zinc-300 flex items-center px-2 rounded my-2 cursor-pointer gap-3 hover:bg-light-hover">
                   <div className={`h-2 w-2 rounded ${project.color}`}></div>
-                  <h1 className="font-poppins w-3/4 text-sm font-semibold text-[#666] truncate">
+                  <h1 className="font- w-3/4 text-sm font-semibold text-[#666] truncate">
                     {project.name}
                   </h1>
                   <div className="bg-[#E3E8EE] w-6 h-6 grid place-items-center rounded-full">
-                    <h1 className="text-black font-poppins text-xs font-semibold">
+                    <h1 className="text-black font- text-xs font-semibold">
                       {project.tasks > 99 ? "99+" : project.tasks}
                     </h1>
                   </div>
@@ -254,7 +259,7 @@ const Sidebar = () => {
         </AnimatePresence>
       </section>
       <div className="absolute w-full grid place-items-center bottom-8">
-        <div className="w-[90%] mt-10 border border-zinc-400 cursor-pointer hover:bg-black group hover:border-transparent transition-all duration-200 ease bg-zinc-200 h-12 rounded font-poppins cursor flex items-center justify-center gap-1">
+        <div className="w-[90%] mt-10 cursor-pointer hover:bg-black group hover:border-transparent transition-all duration-200 ease bg-blue-600 h-12 rounded font- cursor flex items-center justify-center gap-1">
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -268,23 +273,114 @@ const Sidebar = () => {
             >
               <path
                 fill="none"
-                stroke="#000"
-                className="group-hover:stroke-[#fff] transition-all duration-200 ease"
+                stroke="#fff"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-miterlimit="10"
-                stroke-width="2"
+                stroke-width="4"
                 d="M14.5 22V7M7 14.5h15"
               ></path>
             </svg>
           </div>
 
-          <p className="text-sm group-hover:text-[#fff] transition-all duration-200 ease">
+          <p className="text-white font-medium text-md group-hover:text-[#fff] transition-all duration-200 ease">
             Add New project
           </p>
         </div>
       </div>
     </>
+  );
+};
+
+// navbar;
+
+const NavBar = () => {
+  return (
+    <nav className="w-full h-16 border-b flex items-center justify-between">
+      <div className="flex pl-7 gap-4">
+        <p className="text-zinc-500">All Projects</p>
+        <p>{`>`}</p>
+        <p>Website redesign</p>
+        <p></p>
+      </div>
+      <div className="flex items center gap-6 px-6">
+        <div className="group p-2 cursor-pointer">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            viewBox="0 0 6.35 6.35"
+            id="settings"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M 12.023438 1.0019531 C 10.879474 0.99439407 9.827972 1.6403519 9.3183594 2.6621094 L 8.8457031 3.6074219 C 8.6594404 3.6765872 8.4761978 3.7523466 8.2949219 3.8339844 L 7.2929688 3.5 C 6.2105419 3.1386772 5.0091347 3.4251415 4.2070312 4.2402344 C 3.4165021 5.0436863 3.1451318 6.2265373 3.5019531 7.2929688 L 3.8359375 8.2929688 C 3.7525494 8.4755199 3.6745261 8.6599649 3.6035156 8.8476562 L 2.6621094 9.3183594 C 1.6414167 9.8274617 0.99358533 10.877951 1.0019531 12.021484 C 1.0102038 13.148917 1.6542632 14.177388 2.6601562 14.679688 L 3.6074219 15.15625 C 3.676862 15.342581 3.7523738 15.525878 3.8339844 15.707031 L 3.5019531 16.707031 C 3.1409863 17.78843 3.4265384 18.988773 4.2402344 19.791016 C 5.0430601 20.582562 6.2259945 20.854116 7.2929688 20.498047 L 8.2929688 20.166016 C 8.4752932 20.249165 8.6601879 20.325429 8.8476562 20.396484 L 9.3183594 21.335938 C 9.827972 22.357733 10.879474 23.005051 12.023438 22.996094 C 13.150654 22.988535 14.17952 22.342766 14.681641 21.335938 L 15.152344 20.394531 C 15.34095 20.32461 15.52745 20.248787 15.710938 20.166016 L 16.707031 20.498047 C 17.774008 20.854078 18.956941 20.582713 19.759766 19.791016 C 20.573945 18.988282 20.859993 17.78693 20.498047 16.705078 L 20.166016 15.705078 C 20.248999 15.523283 20.325777 15.339204 20.396484 15.152344 L 21.337891 14.679688 C 22.344553 14.177653 22.989794 13.149409 22.998047 12.021484 C 23.006437 10.877913 22.358575 9.8274617 21.337891 9.3183594 L 20.392578 8.8457031 C 20.323076 8.6582386 20.24785 8.4734534 20.166016 8.2910156 L 20.498047 7.2929688 L 20.498047 7.2910156 C 20.853901 6.2250755 20.583022 5.043195 19.792969 4.2402344 C 18.990866 3.4249903 17.789458 3.1387906 16.707031 3.5 L 15.705078 3.8339844 C 15.523268 3.7512127 15.339253 3.6741928 15.152344 3.6035156 L 14.681641 2.6621094 C 14.179525 1.6553188 13.150707 1.0107594 12.023438 1.0019531 z M 12.007812 3.0019531 C 12.383913 3.0048634 12.723716 3.2181461 12.892578 3.5566406 L 13.527344 4.8261719 A 1.0001 1.0001 0 0 0 14.117188 5.3320312 C 14.493957 5.4522202 14.85985 5.6030208 15.210938 5.7851562 A 1.0001 1.0001 0 0 0 15.986328 5.8476562 L 17.337891 5.3984375 A 1.0001 1.0001 0 0 0 17.339844 5.3984375 C 17.704058 5.2767367 18.099687 5.371964 18.367188 5.6425781 C 18.630662 5.9105466 18.719636 6.3014035 18.599609 6.6601562 A 1.0001 1.0001 0 0 0 18.599609 6.6621094 L 18.152344 8.0078125 A 1.0001 1.0001 0 0 0 18.210938 8.7773438 C 18.390843 9.1292178 18.540142 9.4959256 18.658203 9.8730469 A 1.0001 1.0001 0 0 0 19.166016 10.46875 L 20.443359 11.107422 C 20.7869 11.278634 21.000845 11.624959 20.998047 12.005859 C 20.9953 12.381166 20.782078 12.721718 20.443359 12.890625 A 1.0001 1.0001 0 0 0 20.441406 12.890625 L 19.171875 13.527344 A 1.0001 1.0001 0 0 0 18.667969 14.117188 C 18.547058 14.494006 18.395635 14.859895 18.212891 15.210938 A 1.0001 1.0001 0 0 0 18.150391 15.988281 L 18.599609 17.337891 C 18.721397 17.701859 18.628939 18.09753 18.357422 18.365234 C 18.089839 18.629045 17.698751 18.71942 17.339844 18.599609 A 1.0001 1.0001 0 0 0 17.337891 18.599609 L 15.992188 18.152344 A 1.0001 1.0001 0 0 0 15.220703 18.210938 C 14.868349 18.391599 14.502775 18.54163 14.125 18.660156 A 1.0001 1.0001 0 0 0 13.529297 19.167969 L 12.892578 20.441406 C 12.723724 20.780052 12.383967 20.993146 12.007812 20.996094 C 11.625914 20.99908 11.278859 20.785192 11.107422 20.441406 L 10.472656 19.173828 A 1.0001 1.0001 0 0 0 9.8828125 18.667969 C 9.5054002 18.547024 9.1386886 18.39582 8.7871094 18.212891 A 1.0001 1.0001 0 0 0 8.0097656 18.150391 L 6.6601562 18.599609 C 6.3012485 18.71942 5.9101581 18.629801 5.6425781 18.365234 C 5.3710493 18.097644 5.2786067 17.701897 5.4003906 17.337891 A 1.0001 1.0001 0 0 0 5.4003906 17.335938 L 5.8476562 15.990234 A 1.0001 1.0001 0 0 0 5.7871094 15.21875 C 5.606705 14.867632 5.4565935 14.501592 5.3378906 14.125 A 1.0001 1.0001 0 0 0 4.8339844 13.53125 L 3.5585938 12.890625 A 1.0001 1.0001 0 0 0 3.5566406 12.890625 C 3.2179213 12.72168 3.0047004 12.381355 3.0019531 12.005859 C 2.9991657 11.624959 3.21311 11.278748 3.5566406 11.107422 L 4.8261719 10.472656 A 1.0001 1.0001 0 0 0 5.3320312 9.8828125 C 5.4529383 9.5059936 5.6043651 9.140105 5.7871094 8.7890625 A 1.0001 1.0001 0 0 0 5.8496094 8.0136719 L 5.4003906 6.6621094 A 1.0001 1.0001 0 0 0 5.4003906 6.6601562 C 5.2803642 6.3014791 5.3693227 5.9103577 5.6328125 5.6425781 C 5.9003123 5.3708301 6.2959417 5.2771147 6.6601562 5.3984375 L 8.0078125 5.8476562 A 1.0001 1.0001 0 0 0 8.7792969 5.7890625 C 9.1306077 5.609157 9.4964933 5.4598693 9.8730469 5.3417969 A 1.0001 1.0001 0 0 0 10.46875 4.8339844 L 11.107422 3.5566406 C 11.278857 3.2127036 11.625914 2.9989673 12.007812 3.0019531 z M 12.003906 7 C 9.2543332 7 6.9980556 9.2484784 6.9980469 11.998047 C 6.9980299 14.747615 9.2543151 17.001953 12.003906 17.001953 C 14.753498 17.001953 17.000017 14.747615 17 11.998047 C 16.999991 9.2484784 14.75348 7 12.003906 7 z M 12.003906 9 C 13.672602 9 14.999995 10.329348 15 11.998047 C 15.000011 13.666746 13.672613 15.001953 12.003906 15.001953 C 10.3352 15.001953 8.9980363 13.666746 8.9980469 11.998047 C 8.9980522 10.329348 10.335211 9 12.003906 9 z "
+              color="#000"
+              font-weight="400"
+              overflow="visible"
+              paint-order="stroke fill markers"
+              transform="scale(.26458)"
+            ></path>
+          </svg>
+        </div>
+        <div className="group p-2 cursor-pointer">
+          <svg
+            width="25"
+            height="25"
+            viewBox="0 0 22 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19.995 10.711L21.245 10.672C21.239 10.4809 21.1892 10.2937 21.0995 10.1248C21.0097 9.95593 20.8824 9.8099 20.7274 9.69795C20.5724 9.586 20.3937 9.51111 20.2052 9.47904C20.0167 9.44698 19.8233 9.4586 19.64 9.513L19.995 10.711ZM11.288 2.005L12.487 2.36C12.5414 2.1766 12.553 1.98315 12.5209 1.79455C12.4888 1.60596 12.4138 1.42726 12.3017 1.2722C12.1897 1.11715 12.0435 0.989891 11.8745 0.900223C11.7055 0.810554 11.5182 0.760872 11.327 0.755001L11.288 2.005ZM19.64 9.513C19.1076 9.67074 18.5552 9.75057 18 9.75V12.25C18.7959 12.2504 19.5878 12.1359 20.351 11.91L19.64 9.513ZM18 9.75C16.475 9.75 15.0125 9.1442 13.9341 8.06587C12.8558 6.98753 12.25 5.525 12.25 4H9.75C9.75 6.18804 10.6192 8.28646 12.1664 9.83363C13.7135 11.3808 15.812 12.25 18 12.25V9.75ZM12.25 4C12.25 3.428 12.333 2.878 12.487 2.36L10.09 1.65C9.86398 2.41285 9.74947 3.20437 9.75 4H12.25ZM11 3.25C11.083 3.25 11.166 3.251 11.25 3.254L11.328 0.755001C11.2187 0.751613 11.1094 0.749946 11 0.750001V3.25ZM3.25 11C3.25 8.94457 4.06652 6.97333 5.51992 5.51992C6.97333 4.06652 8.94457 3.25 11 3.25V0.750001C5.34 0.750001 0.75 5.34 0.75 11H3.25ZM11 18.75C8.94457 18.75 6.97333 17.9335 5.51992 16.4801C4.06652 15.0267 3.25 13.0554 3.25 11H0.75C0.75 16.66 5.34 21.25 11 21.25V18.75ZM18.75 11C18.75 13.0554 17.9335 15.0267 16.4801 16.4801C15.0267 17.9335 13.0554 18.75 11 18.75V21.25C16.66 21.25 21.25 16.66 21.25 11H18.75ZM18.746 10.75C18.749 10.834 18.75 10.917 18.75 11H21.25C21.25 10.89 21.248 10.781 21.245 10.672L18.746 10.751V10.75Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+//  main body;
+const MainBody = () => {
+  return (
+    <main>
+      <header className="w-full h-16 border pl-7 flex justify-between">
+        <div className="h-full flex items-center">
+          <p className="text-2xl">Website Design Board</p>
+          <div></div>
+        </div>
+        <div className="h-full flex items-center gap-6 px-6">
+          <div>
+            <input
+              type="text"
+              className="border outline-none h-9 border-zinc-300 p-1 font-md rounded-lg pl-4"
+              placeholder="Search"
+            />
+          </div>
+          <div className="h-9 w-28 border border-zinc-400 rounded-full flex items-center justify-center">
+            <p>Filter</p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              id="chevron-down"
+              height="25"
+              width="25"
+              fill="#222"
+            >
+              <g data-name="Layer 2">
+                <path
+                  d="M12 15.5a1 1 0 0 1-.71-.29l-4-4a1 1 0 1 1 1.42-1.42L12 13.1l3.3-3.18a1 1 0 1 1 1.38 1.44l-4 3.86a1 1 0 0 1-.68.28z"
+                  data-name="chevron-down"
+                ></path>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </header>
+      <section></section>
+    </main>
   );
 };
 
