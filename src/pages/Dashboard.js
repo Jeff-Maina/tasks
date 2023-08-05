@@ -350,7 +350,7 @@ const MainBody = () => {
 
   return (
     <main>
-      <header className="w-full h-20 border pl-7 flex justify-between">
+      <header className="w-full h-20  pl-7 flex justify-between">
         <ProjectTitle />
         <div className="h-full flex items-center gap-4 px-6">
           <div>
@@ -408,7 +408,9 @@ const MainBody = () => {
           </div>
         </div>
       </header>
-      <section></section>
+      <section className="w-full">
+        <TasksBody />
+      </section>
     </main>
   );
 };
@@ -435,7 +437,9 @@ const ProjectTitle = () => {
             }}
             className="flex items-center gap-3"
           >
-            <p className="text-2xl max-w-96 truncate">{projectName === "" ? "Untitled" : projectName}</p>
+            <p className="text-2xl max-w-96 truncate">
+              {projectName === "" ? "Untitled" : projectName}
+            </p>
             <div
               onClick={() => {
                 setIsEditingName(true);
@@ -466,7 +470,7 @@ const ProjectTitle = () => {
           >
             <input
               type="text"
-              onChange={e => setProjectName(e.target.value)}
+              onChange={(e) => setProjectName(e.target.value)}
               value={projectName}
               onBlur={() => {
                 setIsEditingName(false);
@@ -807,6 +811,79 @@ const FilterMenu = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const TasksBody = () => {
+  const [activeView, setActiveView] = useState("Board");
+  const boardView = activeView === "Board";
+  const tableView = activeView === "Table";
+  const listView = activeView === "List";
+
+  const toggleView = (view) => {
+    setActiveView(view);
+  };
+
+  return (
+    <main className="w-full min-h-[50vh] mt-3">
+      <section className="w-full h-12">
+        <div className="flex items-center gap-2 relative translate-y-[1px] z-30 pl-7">
+          <div
+            onClick={() => {
+              setActiveView("Board");
+            }}
+            className={`h-10 cursor-pointer grid place-items-center rounded-t-md border relative border-zinc-300 transition-all duration-200 ease ${
+              boardView
+                ? "z-30 bg-white border-b-white w-28"
+                : "bg-zinc-100 w-20 text-[#888]"
+            }`}
+          >
+            <p className={``}>Board</p>
+          </div>
+          <div
+            onClick={() => {
+              setActiveView("Table");
+            }}
+            className={`h-10 cursor-pointer grid place-items-center rounded-t-md border relative border-zinc-300 transition-all duration-200 ease ${
+              tableView
+                ? "z-30 bg-white border-b-white w-28"
+                : "bg-zinc-100 w-20 text-[#888]"
+            }`}
+          >
+            <p className="">Table</p>
+          </div>
+          <div
+            onClick={() => {
+              setActiveView("List");
+            }}
+            className={`h-10 cursor-pointer grid place-items-center rounded-t-md border relative border-zinc-300 transition-all duration-200 ease ${
+              listView
+                ? "z-30 bg-white border-b-white w-28"
+                : "bg-zinc-100 w-20 text-[#888]"
+            }`}
+          >
+            <p className="">List</p>
+          </div>
+        </div>
+        <div className="w-full border-t border-zinc-300  z-20 bg-white"></div>
+      </section>
+      <section className="w-full h-[78vh] grid grid-cols-4">
+        <div className="w-full h-full p-7">
+          <div className="w-full h-full border bg-zinc-50 border-zinc-200 rounded">
+            div*2 
+          </div>
+        </div>
+        <div className="w-full h-full p-7">
+          <div className="w-full h-full border border-zinc-200 rounded bg-zinc-50"></div>
+        </div>
+        <div className="w-full h-full  p-7">
+          <div className="w-full h-full border border-zinc-200 rounded bg-zinc-50"></div>
+        </div>
+        <div className="w-full h-full  p-7">
+          <div className="w-full h-full border border-zinc-300 rounded"></div>
+        </div>
+      </section>
+    </main>
   );
 };
 
