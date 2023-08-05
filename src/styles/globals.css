@@ -50,3 +50,7 @@ input[type="radio"]:checked {
 .filter-option:hover .filter-selection {
   display: flex;
 }
+
+.task-column{
+  background-color: #f2f2f28e;
+}

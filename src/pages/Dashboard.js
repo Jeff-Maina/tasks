@@ -868,18 +868,161 @@ const TasksBody = () => {
         <div className="w-full border-t border-zinc-300  z-20 bg-white"></div>
       </section>
       <section className="w-full h-[78vh] grid grid-cols-4">
-        <div className="w-full h-full p-7">
-          <div className="w-full h-full border bg-zinc-50 border-zinc-200 rounded">
-            div*2 
+        <div className="w-full h-full pl-7 py-4">
+          <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
+            <div className="flex w-full h-10  items-center justify-between pl-2">
+              <span className="flex items-center gap-3">
+                <div className="h-[0.6rem] w-[0.6rem] bg-green-500 rounded-full"></div>
+                <div>
+                  <p className="text-[#444]">Todo</p>
+                </div>{" "}
+              </span>
+
+              <div className="cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  id="more-vert"
+                >
+                  <path fill="none" d="M0 0h24v24H0V0z"></path>
+                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div className="w-full h-14 rounded-md border border-zinc-300 bg-white grid place-items-center cursor-pointer hover:border-zinc-400">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  id="add"
+                  x="0"
+                  y="0"
+                  height="30"
+                  width="30"
+                  version="1.1"
+                  viewBox="0 0 29 29"
+                >
+                  <path
+                    fill="none"
+                    stroke="#000"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-miterlimit="10"
+                    stroke-width="2"
+                    d="M14.5 22V7M7 14.5h15"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div className="w-full h-auto">
+
+
+              <div className="border border-zinc-200 bg-white h-32 rounded">
+
+              </div>
+
+            </div>
           </div>
         </div>
-        <div className="w-full h-full p-7">
-          <div className="w-full h-full border border-zinc-200 rounded bg-zinc-50"></div>
+        <div className="w-full h-full pl-7 py-4">
+          <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
+            <div className="flex w-full h-10  items-center justify-between pl-2">
+              <span className="flex items-center gap-3">
+                <div className="h-[0.6rem] w-[0.6rem] bg-amber-500 rounded-full"></div>
+                <div>
+                  <p className="text-[#444]">In Progress</p>
+                </div>{" "}
+              </span>
+
+              <div className="cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  id="more-vert"
+                >
+                  <path fill="none" d="M0 0h24v24H0V0z"></path>
+                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div className="w-full h-14 rounded-md border border-zinc-300 bg-white grid place-items-center cursor-pointer hover:border-zinc-400">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  id="add"
+                  x="0"
+                  y="0"
+                  height="30"
+                  width="30"
+                  version="1.1"
+                  viewBox="0 0 29 29"
+                >
+                  <path
+                    fill="none"
+                    stroke="#000"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-miterlimit="10"
+                    stroke-width="2"
+                    d="M14.5 22V7M7 14.5h15"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="w-full h-full  p-7">
-          <div className="w-full h-full border border-zinc-200 rounded bg-zinc-50"></div>
+        <div className="w-full h-full pl-7 py-4">
+          <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
+            <div className="flex w-full h-10  items-center justify-between pl-2">
+              <span className="flex items-center gap-3">
+                <div className="h-[0.6rem] w-[0.6rem] bg-red-500 rounded-full"></div>
+                <div>
+                  <p className="text-[#444]">Completed</p>
+                </div>{" "}
+              </span>
+              <div className="cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  id="more-vert"
+                >
+                  <path fill="none" d="M0 0h24v24H0V0z"></path>
+                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div className="w-full h-14 rounded-md border border-zinc-300 bg-white grid place-items-center cursor-pointer hover:border-zinc-400">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  id="add"
+                  x="0"
+                  y="0"
+                  height="30"
+                  width="30"
+                  version="1.1"
+                  viewBox="0 0 29 29"
+                >
+                  <path
+                    fill="none"
+                    stroke="#000"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-miterlimit="10"
+                    stroke-width="2"
+                    d="M14.5 22V7M7 14.5h15"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="w-full h-full  p-7">
+        <div className="w-full h-full px-7 py-4">
           <div className="w-full h-full border border-zinc-300 rounded"></div>
         </div>
       </section>
