@@ -260,7 +260,7 @@ const Sidebar = () => {
           )}
         </AnimatePresence>
       </section>
-      <div className="absolute w-full grid place-items-center bottom-8">
+      <div className="absolute w-full grid place-items-center bottom-3">
         <div className="w-[90%] mt-10 cursor-pointer hover:bg-black group hover:border-transparent transition-all duration-200 ease bg-blue-600 h-12 rounded font- cursor flex items-center justify-center gap-1">
           <div>
             <svg
@@ -348,55 +348,10 @@ const MainBody = () => {
       !e.target.previousElementSibling.checked;
   };
 
-  const selectThisFilter = (e, value) => {
-    const inputElement = e.target.querySelector("input[type='radio']");
-    console.log(inputElement);
-    inputElement.checked = !inputElement.checked;
-    const isChecked = inputElement.checked;
-
-    if (isChecked) {
-      console.log(isChecked);
-      addFilter(value);
-    } else {
-      removeFilter(value);
-    }
-  };
-
-  // filters logic;
-
-  const [keyword, setKeyWord] = useState("");
-
-  const [stateFilters, setFilters] = useState([]);
-  const removeFilter = (filter) => {
-    const sound = new Audio("/SoundEffects/bubble-sound.mp3");
-    sound.playbackRate = 4.5;
-    sound.play();
-    let selectedFilters = stateFilters.filter((f) => f !== filter);
-    setFilters(selectedFilters);
-
-    let radios = document.querySelectorAll("input[type='radio']");
-    radios.forEach((radio) => {
-      if (radio.id === filter) {
-        radio.checked = false;
-      }
-    });
-  };
-
-  const addFilter = (filter, value) => {
-    const filterObj = {
-      type: filter,
-      value,
-    };
-    setFilters([...stateFilters, filter]);
-  };
-
   return (
     <main>
-      <header className="w-full h-16 border pl-7 flex justify-between">
-        <div className="h-full flex items-center">
-          <p className="text-2xl">Website Design Board</p>
-          <div></div>
-        </div>
+      <header className="w-full h-20 border pl-7 flex justify-between">
+        <ProjectTitle />
         <div className="h-full flex items-center gap-4 px-6">
           <div>
             <input
@@ -406,281 +361,7 @@ const MainBody = () => {
             />
           </div>
 
-          <div className="h-12 w-28  rounded-full flex items-center justify-center gap-2 relative group">
-            <div className="w-full h-9 flex items-center gap-2 justify-center cursor-pointer border border-zinc-300 rounded-full">
-              <p>Filter</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                data-name="Layer 2"
-                viewBox="0 0 30 30"
-                id="filter"
-                height="23"
-                width="23"
-              >
-                <path
-                  fill="#111224"
-                  d="M17 11H4A1 1 0 0 1 4 9H17A1 1 0 0 1 17 11zM26 11H22a1 1 0 0 1 0-2h4A1 1 0 0 1 26 11z"
-                ></path>
-                <path
-                  fill="#111224"
-                  d="M19.5 13.5A3.5 3.5 0 1 1 23 10 3.5 3.5 0 0 1 19.5 13.5zm0-5A1.5 1.5 0 1 0 21 10 1.5 1.5 0 0 0 19.5 8.5zM26 21H13a1 1 0 0 1 0-2H26A1 1 0 0 1 26 21zM8 21H4a1 1 0 0 1 0-2H8A1 1 0 0 1 8 21z"
-                ></path>
-                <path
-                  fill="#111224"
-                  d="M10.5,23.5A3.5,3.5,0,1,1,14,20,3.5,3.5,0,0,1,10.5,23.5Zm0-5A1.5,1.5,0,1,0,12,20,1.5,1.5,0,0,0,10.5,18.5Z"
-                ></path>
-              </svg>
-            </div>
-
-            <div className="absolute border border-zinc-300 top-[100%] rounded-xl right-0 w-64 py-3 z-50 bg-white group-hover:flex flex-col items-center hidden px-1 gap-2">
-              <p className="w-full px-2">Filters</p>
-
-              <div className="w-full">
-                <div className="flex pl-1 flex-wrap w-full">
-                  <AnimatePresence initial="false" mode="popLayout">
-                    {stateFilters.map((filter, index) => {
-                      let isToday = filter === "Today";
-                      let isThisWeek = filter === "This Week";
-                      let isThisMonth = filter === "This Month";
-                      let isLow = filter === "Low";
-                      let isHigh = filter === "High";
-                      let isMedium = filter === "Medium";
-                      let isKeyword =
-                        !isThisMonth &&
-                        !isLow &&
-                        !isHigh &&
-                        !isMedium &&
-                        !isToday &&
-                        !isThisWeek;
-                      return (
-                        <motion.div
-                          key={index}
-                          layout
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{
-                            opacity: {
-                              duration: 0.1,
-                            },
-                            layout: {
-                              duration: 0.3,
-                            },
-                          }}
-                          className={`px-2 pl-3 py-1 mr-1 my-1 rounded-full border-2
-                          ${isToday && "border-orange-400 bg-orange-300"}
-                          ${isThisWeek && "border-cyan-400 bg-cyan-300"}
-                          ${isThisMonth && "border-violet-400 bg-violet-300"}
-                          ${isLow && "border-green-400 bg-green-300"}
-                          ${isHigh && "border-red-400 bg-red-300"}
-                          ${isMedium && "border-amber-400 bg-amber-300"}
-                          ${isKeyword && "border-yellow-400 bg-yellow-300"}
-                          flex items-center justify-center gap-1`}
-                        >
-                          <p className="text-sm text-[#000] "> {filter}</p>
-                          <div
-                            className="cursor-pointer"
-                            onClick={() => {
-                              removeFilter(filter);
-                            }}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              id="cancel"
-                              height="18"
-                              width="18"
-                            >
-                              <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
-                            </svg>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </AnimatePresence>
-                </div>
-              </div>
-              <div className="w-full">
-                <div className="w-full relative cursor-pointer h-8 flex gap-2 items-center justify-between pl-2 rounded filter-option px-2">
-                  <div className="w-full flex justify-between items-center h-full">
-                    <p className="text-sm text-[#333]">Deadline </p>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        id="chevron"
-                        height="20"
-                        width="20"
-                      >
-                        <path d="M11 10L7.859 6.58a.695.695 0 0 1 0-.978.68.68 0 0 1 .969 0l3.83 3.908a.697.697 0 0 1 0 .979l-3.83 3.908a.68.68 0 0 1-.969 0 .695.695 0 0 1 0-.978L11 10z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="h-28 w-40 border border-zinc-300 bg-white absolute right-[99%] top-[50%] -translate-y-2/4 rounded hidden filter-selection flex-col justify-evenly">
-                    <div
-                      onClick={(e) => {
-                        selectThisFilter(e, "Today");
-                      }}
-                      className="flex items-center px-3 gap-2"
-                    >
-                      <input
-                        className="pointer-events-none"
-                        type="radio"
-                        id="Today"
-                      />
-                      <p className="text-sm pointer-events-none text-[#444]">
-                        Today
-                      </p>
-                    </div>
-                    <div
-                      onClick={(e) => {
-                        selectThisFilter(e, "This Week");
-                      }}
-                      className="flex items-center px-3 gap-2"
-                    >
-                      <input
-                        className="pointer-events-none"
-                        type="radio"
-                        id="This Week"
-                      />
-                      <p className="text-sm pointer-events-none text-[#444]">
-                        This week
-                      </p>
-                    </div>
-                    <div
-                      onClick={(e) => {
-                        selectThisFilter(e, "This Month");
-                      }}
-                      className="flex items-center px-3 gap-2"
-                    >
-                      <input
-                        className="pointer-events-none"
-                        type="radio"
-                        id="This Month"
-                      />
-                      <p className="text-sm pointer-events-none text-[#444]">
-                        This Month
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full relative cursor-pointer h-8 flex gap-2 items-center justify-between pl-2 rounded filter-option px-2">
-                  <div className="w-full flex justify-between items-center h-full">
-                    <p className="text-sm text-[#333]">Priority </p>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        id="chevron"
-                        height="20"
-                        width="20"
-                      >
-                        <path d="M11 10L7.859 6.58a.695.695 0 0 1 0-.978.68.68 0 0 1 .969 0l3.83 3.908a.697.697 0 0 1 0 .979l-3.83 3.908a.68.68 0 0 1-.969 0 .695.695 0 0 1 0-.978L11 10z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="h-28 w-40 border border-zinc-300 bg-white absolute right-[99%] top-[50%] -translate-y-2/4 rounded hidden filter-selection flex-col justify-evenly">
-                    <div
-                      onClick={(e) => {
-                        selectThisFilter(e, "Low");
-                      }}
-                      className="flex items-center px-3 gap-2"
-                    >
-                      <input
-                        className="pointer-events-none"
-                        type="radio"
-                        id="Low"
-                      />
-                      <p className="text-sm text-[#444] pointer-events-none">
-                        Low
-                      </p>
-                    </div>
-                    <div
-                      onClick={(e) => {
-                        selectThisFilter(e, "Medium");
-                      }}
-                      className="flex items-center px-3 gap-2"
-                    >
-                      <input
-                        className="pointer-events-none"
-                        type="radio"
-                        id="Medium"
-                      />
-                      <p className="text-sm text-[#444] pointer-events-none">
-                        Medium
-                      </p>
-                    </div>
-                    <div
-                      onClick={(e) => {
-                        selectThisFilter(e, "High");
-                      }}
-                      className="flex items-center px-3 gap-2"
-                    >
-                      <input
-                        className="pointer-events-none"
-                        type="radio"
-                        id="High"
-                      />
-                      <p className="text-sm text-[#444] pointer-events-none">
-                        High
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full relative cursor-pointer h-8 flex gap-2 items-center justify-between pl-2 rounded filter-option px-2">
-                  <div className="w-full flex justify-between items-center h-full">
-                    <p className="text-sm text-[#333]">Keyword </p>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        id="chevron"
-                        height="20"
-                        width="20"
-                      >
-                        <path d="M11 10L7.859 6.58a.695.695 0 0 1 0-.978.68.68 0 0 1 .969 0l3.83 3.908a.697.697 0 0 1 0 .979l-3.83 3.908a.68.68 0 0 1-.969 0 .695.695 0 0 1 0-.978L11 10z"></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="h-auto w-60 p-2 py-3 border gap-2 border-zinc-300 bg-white absolute right-[99%] top-[50%] -translate-y-2/4 rounded hidden filter-selection flex-col justify-evenly">
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        onChange={(e) => setKeyWord(e.target.value)}
-                        placeholder="Enter Keyword..."
-                        value={keyword}
-                        maxLength="10"
-                        className="p-1 placeholder:text-sm px-2 rounded outline-none w-full border border-[#ccc] font-lexend"
-                      />
-                      <p className="text-[10px] text-zinc-500 m-1">
-                        Maximum 10 characters
-                        <span className="text-red-600">*</span>
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <div
-                        onClick={() => {
-                          setKeyWord(" ");
-                        }}
-                        className="h-8 w-2/4 grid place-items-center rounded border border-gray-300"
-                      >
-                        <p className="text-sm text-[#444]">Cancel</p>
-                      </div>
-                      <div
-                        onClick={() => {
-                          addFilter(keyword);
-                          setKeyWord("");
-                        }}
-                        className="h-8 w-2/4 grid place-items-center rounded  bg-blue-500"
-                      >
-                        <p className="text-sm text-white">Save</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <FilterMenu />
           <div className="h-12 w-28  rounded-full flex items-center justify-center gap-2 relative group">
             <div className="w-full h-9 flex items-center gap-2 justify-center cursor-pointer border border-zinc-300 rounded-full">
               <p>Sort</p>
@@ -729,6 +410,403 @@ const MainBody = () => {
       </header>
       <section></section>
     </main>
+  );
+};
+
+// ****************************************************************
+// ****************** MAIN BODY COMPONENTS ************************
+// ****************************************************************
+
+// header title;
+
+const ProjectTitle = () => {
+  const [projectName, setProjectName] = useState("Website Design Board");
+  const [isEditingName, setIsEditingName] = useState(false);
+  return (
+    <div className="h-full flex justify-center flex-col gap-1">
+      <AnimatePresence>
+        {!isEditingName ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.3,
+            }}
+            className="flex items-center gap-3"
+          >
+            <p className="text-2xl max-w-96 truncate">{projectName === "" ? "Untitled" : projectName}</p>
+            <div
+              onClick={() => {
+                setIsEditingName(true);
+              }}
+              className="cursor-pointer "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                id="edit"
+              >
+                <path fill="none" d="M0 0h24v24H0V0z"></path>
+                <path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"></path>
+              </svg>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{
+              duration: 2,
+            }}
+            className="flex items-center"
+          >
+            <input
+              type="text"
+              onChange={e => setProjectName(e.target.value)}
+              value={projectName}
+              onBlur={() => {
+                setIsEditingName(false);
+              }}
+              className="text-2xl pr-0 border w-auto border-zinc-500 pl-2 outline-none -translate-x-[10px]"
+            />
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setIsEditingName(false);
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                id="confirm"
+                width="30"
+                height="30"
+              >
+                <path d="M14 18.586l-3.293-3.293-1.414 1.414L14 21.414l8.707-8.707-1.414-1.414z"></path>
+                <path d="M16 2C8.269 2 2 8.269 2 16s6.269 14 14 14 14-6.269 14-14S23.731 2 16 2zm0 26C9.383 28 4 22.617 4 16S9.383 4 16 4s12 5.383 12 12-5.383 12-12 12z"></path>
+              </svg>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="flex items-center gap-2">
+        <p className="text-xs text-[#666]">Last updated :</p>
+        <p className="text-xs text-green-600">30 mins ago</p>
+      </div>
+    </div>
+  );
+};
+
+// filter menu;
+
+const FilterMenu = () => {
+  // filters logic;
+
+  const [keyword, setKeyWord] = useState("");
+
+  const [stateFilters, setFilters] = useState([]);
+  const removeFilter = (filter) => {
+    const sound = new Audio("/SoundEffects/bubble-sound.mp3");
+    sound.playbackRate = 4.5;
+    sound.play();
+    let selectedFilters = stateFilters.filter((f) => f !== filter);
+    setFilters(selectedFilters);
+
+    let radios = document.querySelectorAll("input[type='radio']");
+    radios.forEach((radio) => {
+      if (radio.id === filter) {
+        radio.checked = false;
+      }
+    });
+  };
+
+  const selectThisFilter = (e, value) => {
+    const inputElement = e.target.querySelector("input[type='radio']");
+    inputElement.checked = !inputElement.checked;
+    const isChecked = inputElement.checked;
+
+    if (isChecked) {
+      addFilter(value);
+    } else {
+      removeFilter(value);
+    }
+  };
+
+  const addFilter = (filter, value) => {
+    const filterObj = {
+      type: filter,
+      value,
+    };
+    setFilters([...stateFilters, filter]);
+  };
+
+  return (
+    <div className="h-12 w-28  rounded-full flex items-center justify-center gap-2 relative group">
+      <div className="w-full h-9 flex items-center gap-2 justify-center cursor-pointer border border-zinc-300 rounded-full">
+        <p>Filter</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          data-name="Layer 2"
+          viewBox="0 0 30 30"
+          id="filter"
+          height="23"
+          width="23"
+        >
+          <path
+            fill="#111224"
+            d="M17 11H4A1 1 0 0 1 4 9H17A1 1 0 0 1 17 11zM26 11H22a1 1 0 0 1 0-2h4A1 1 0 0 1 26 11z"
+          ></path>
+          <path
+            fill="#111224"
+            d="M19.5 13.5A3.5 3.5 0 1 1 23 10 3.5 3.5 0 0 1 19.5 13.5zm0-5A1.5 1.5 0 1 0 21 10 1.5 1.5 0 0 0 19.5 8.5zM26 21H13a1 1 0 0 1 0-2H26A1 1 0 0 1 26 21zM8 21H4a1 1 0 0 1 0-2H8A1 1 0 0 1 8 21z"
+          ></path>
+          <path
+            fill="#111224"
+            d="M10.5,23.5A3.5,3.5,0,1,1,14,20,3.5,3.5,0,0,1,10.5,23.5Zm0-5A1.5,1.5,0,1,0,12,20,1.5,1.5,0,0,0,10.5,18.5Z"
+          ></path>
+        </svg>
+      </div>
+
+      <div className="absolute border border-zinc-300 top-[100%] rounded-xl right-0 w-64 py-3 z-50 bg-white group-hover:flex flex-col items-center hidden px-1 gap-2">
+        <p className="w-full px-2">Filters</p>
+
+        <div className="w-full">
+          <div className="flex pl-1 flex-wrap w-full">
+            <AnimatePresence initial="false" mode="popLayout">
+              {stateFilters.map((filter, index) => {
+                let isToday = filter === "Today";
+                let isThisWeek = filter === "This Week";
+                let isThisMonth = filter === "This Month";
+                let isLow = filter === "Low";
+                let isHigh = filter === "High";
+                let isMedium = filter === "Medium";
+                let isKeyword =
+                  !isThisMonth &&
+                  !isLow &&
+                  !isHigh &&
+                  !isMedium &&
+                  !isToday &&
+                  !isThisWeek;
+                return (
+                  <motion.div
+                    key={index}
+                    layout
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{
+                      opacity: {
+                        duration: 0.1,
+                      },
+                      layout: {
+                        duration: 0.3,
+                      },
+                    }}
+                    className={`px-2 pl-3 py-1 mr-1 my-1 rounded-full border-2
+                ${isToday && "border-orange-400 bg-orange-300"}
+                ${isThisWeek && "border-cyan-400 bg-cyan-300"}
+                ${isThisMonth && "border-violet-400 bg-violet-300"}
+                ${isLow && "border-green-400 bg-green-300"}
+                ${isHigh && "border-red-400 bg-red-300"}
+                ${isMedium && "border-amber-400 bg-amber-300"}
+                ${isKeyword && "border-yellow-400 bg-yellow-300"}
+                flex items-center justify-center gap-1`}
+                  >
+                    <p className="text-sm text-[#000] "> {filter}</p>
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => {
+                        removeFilter(filter);
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        id="cancel"
+                        height="18"
+                        width="18"
+                      >
+                        <path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path>
+                      </svg>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        </div>
+        <div className="w-full">
+          <div className="w-full relative cursor-pointer h-8 flex gap-2 items-center justify-between pl-2 rounded filter-option px-2">
+            <div className="w-full flex justify-between items-center h-full">
+              <p className="text-sm text-[#333]">Deadline </p>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  id="chevron"
+                  height="20"
+                  width="20"
+                >
+                  <path d="M11 10L7.859 6.58a.695.695 0 0 1 0-.978.68.68 0 0 1 .969 0l3.83 3.908a.697.697 0 0 1 0 .979l-3.83 3.908a.68.68 0 0 1-.969 0 .695.695 0 0 1 0-.978L11 10z"></path>
+                </svg>
+              </div>
+            </div>
+            <div className="h-28 w-40 border border-zinc-300 bg-white absolute right-[99%] top-[50%] -translate-y-2/4 rounded hidden filter-selection flex-col justify-evenly">
+              <div
+                onClick={(e) => {
+                  selectThisFilter(e, "Today");
+                }}
+                className="flex items-center px-3 gap-2"
+              >
+                <input
+                  className="pointer-events-none"
+                  type="radio"
+                  id="Today"
+                />
+                <p className="text-sm pointer-events-none text-[#444]">Today</p>
+              </div>
+              <div
+                onClick={(e) => {
+                  selectThisFilter(e, "This Week");
+                }}
+                className="flex items-center px-3 gap-2"
+              >
+                <input
+                  className="pointer-events-none"
+                  type="radio"
+                  id="This Week"
+                />
+                <p className="text-sm pointer-events-none text-[#444]">
+                  This week
+                </p>
+              </div>
+              <div
+                onClick={(e) => {
+                  selectThisFilter(e, "This Month");
+                }}
+                className="flex items-center px-3 gap-2"
+              >
+                <input
+                  className="pointer-events-none"
+                  type="radio"
+                  id="This Month"
+                />
+                <p className="text-sm pointer-events-none text-[#444]">
+                  This Month
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="w-full relative cursor-pointer h-8 flex gap-2 items-center justify-between pl-2 rounded filter-option px-2">
+            <div className="w-full flex justify-between items-center h-full">
+              <p className="text-sm text-[#333]">Priority </p>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  id="chevron"
+                  height="20"
+                  width="20"
+                >
+                  <path d="M11 10L7.859 6.58a.695.695 0 0 1 0-.978.68.68 0 0 1 .969 0l3.83 3.908a.697.697 0 0 1 0 .979l-3.83 3.908a.68.68 0 0 1-.969 0 .695.695 0 0 1 0-.978L11 10z"></path>
+                </svg>
+              </div>
+            </div>
+            <div className="h-28 w-40 border border-zinc-300 bg-white absolute right-[99%] top-[50%] -translate-y-2/4 rounded hidden filter-selection flex-col justify-evenly">
+              <div
+                onClick={(e) => {
+                  selectThisFilter(e, "Low");
+                }}
+                className="flex items-center px-3 gap-2"
+              >
+                <input className="pointer-events-none" type="radio" id="Low" />
+                <p className="text-sm text-[#444] pointer-events-none">Low</p>
+              </div>
+              <div
+                onClick={(e) => {
+                  selectThisFilter(e, "Medium");
+                }}
+                className="flex items-center px-3 gap-2"
+              >
+                <input
+                  className="pointer-events-none"
+                  type="radio"
+                  id="Medium"
+                />
+                <p className="text-sm text-[#444] pointer-events-none">
+                  Medium
+                </p>
+              </div>
+              <div
+                onClick={(e) => {
+                  selectThisFilter(e, "High");
+                }}
+                className="flex items-center px-3 gap-2"
+              >
+                <input className="pointer-events-none" type="radio" id="High" />
+                <p className="text-sm text-[#444] pointer-events-none">High</p>
+              </div>
+            </div>
+          </div>
+          <div className="w-full relative cursor-pointer h-8 flex gap-2 items-center justify-between pl-2 rounded filter-option px-2">
+            <div className="w-full flex justify-between items-center h-full">
+              <p className="text-sm text-[#333]">Keyword </p>
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  id="chevron"
+                  height="20"
+                  width="20"
+                >
+                  <path d="M11 10L7.859 6.58a.695.695 0 0 1 0-.978.68.68 0 0 1 .969 0l3.83 3.908a.697.697 0 0 1 0 .979l-3.83 3.908a.68.68 0 0 1-.969 0 .695.695 0 0 1 0-.978L11 10z"></path>
+                </svg>
+              </div>
+            </div>
+            <div className="h-auto w-60 p-2 py-3 border gap-2 border-zinc-300 bg-white absolute right-[99%] top-[50%] -translate-y-2/4 rounded hidden filter-selection flex-col justify-evenly">
+              <div className="w-full">
+                <input
+                  type="text"
+                  onChange={(e) => setKeyWord(e.target.value)}
+                  placeholder="Enter Keyword..."
+                  value={keyword}
+                  maxLength="10"
+                  className="p-1 placeholder:text-sm px-2 rounded outline-none w-full border border-[#ccc] font-lexend"
+                />
+                <p className="text-[10px] text-zinc-500 m-1">
+                  Maximum 10 characters
+                  <span className="text-red-600">*</span>
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <div
+                  onClick={() => {
+                    setKeyWord(" ");
+                  }}
+                  className="h-8 w-2/4 grid place-items-center rounded border border-gray-300"
+                >
+                  <p className="text-sm text-[#444]">Cancel</p>
+                </div>
+                <div
+                  onClick={() => {
+                    addFilter(keyword);
+                    setKeyWord("");
+                  }}
+                  className="h-8 w-2/4 grid place-items-center rounded  bg-blue-500"
+                >
+                  <p className="text-sm text-white">Save</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
