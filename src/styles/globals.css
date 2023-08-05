@@ -26,7 +26,6 @@ body {
   width: 10px;
 }
 
-
 /* radios */
 input[type="radio"] {
   appearance: none;
@@ -35,7 +34,7 @@ input[type="radio"] {
   width: 15px;
   height: 15px;
   border: 2px solid #8f8f8f;
-  border-radius: 50%; 
+  border-radius: 50%;
   outline: none;
   cursor: pointer;
 }
@@ -46,4 +45,8 @@ input[type="radio"]:checked {
   border: 3px solid #007bff;
 }
 
+/* filters */
 
+.filter-option:hover .filter-selection {
+  display: flex;
+}
