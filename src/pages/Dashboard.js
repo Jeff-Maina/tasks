@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Head from "next/head";
 import { useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { v4 as uuid } from "uuid";
 
 const Dashboard = () => {
   return (
@@ -815,6 +817,41 @@ const FilterMenu = () => {
 };
 
 const TasksBody = () => {
+  const finalSpaceCharacters = [
+    {
+      id: "gary",
+      name: "Gary Goodspeed",
+    },
+    {
+      id: "cato",
+      name: "Little Cato",
+    },
+    {
+      id: "kvn",
+      name: "KVN",
+    },
+    {
+      id: "mooncake",
+      name: "Mooncake",
+    },
+    {
+      id: "quinn",
+      name: "Quinn Ergon",
+    },
+  ];
+
+  const [characters, updateCharacters] = useState(finalSpaceCharacters);
+
+  function handleOnDragEnd(result) {
+    if (!result.destination) return;
+
+    const items = Array.from(characters);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    updateCharacters(items);
+  }
+
   const [activeView, setActiveView] = useState("Board");
   const boardView = activeView === "Board";
   const tableView = activeView === "Table";
@@ -824,6 +861,74 @@ const TasksBody = () => {
     setActiveView(view);
   };
 
+  // dragging logic;
+
+  const itemsFromBackend = [
+    { id: "item1", content: "First task" },
+    { id: "item2", content: "Second task" },
+    { id: "item3", content: "Third task" },
+    { id: "item4", content: "Fourth task" },
+    { id: "item5", content: "Fifth task" },
+  ];
+
+  const columnsFromBackend = {
+    column1: {
+      name: "Requested",
+      items: itemsFromBackend,
+    },
+    column2: {
+      name: "To do",
+      items: [],
+    },
+    column3: {
+      name: "In Progress",
+      items: [],
+    },
+    column4: {
+      name: "Done",
+      items: [],
+    },
+  };
+
+  const [columns, setColumns] = useState(columnsFromBackend);
+
+  const onDragEnd = (result, columns, setColumns) => {
+    if (!result.destination) return;
+    const { source, destination } = result;
+
+    if (source.droppableId !== destination.droppableId) {
+      const sourceColumn = columns[source.droppableId];
+      const destColumn = columns[destination.droppableId];
+      const sourceItems = [...sourceColumn.items];
+      const destItems = [...destColumn.items];
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
+        [destination.droppableId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      });
+      console.log(destination);
+    } else {
+      const column = columns[source.droppableId];
+      const copiedItems = [...column.items];
+      const [removed] = copiedItems.splice(source.index, 1);
+      copiedItems.splice(destination.index, 0, removed);
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...column,
+          items: copiedItems,
+        },
+      });
+    }
+  };
   return (
     <main className="w-full min-h-[50vh] mt-3">
       <section className="w-full h-12">
@@ -867,165 +972,105 @@ const TasksBody = () => {
         </div>
         <div className="w-full border-t border-zinc-300  z-20 bg-white"></div>
       </section>
-      <section className="w-full h-[78vh] grid grid-cols-4">
-        <div className="w-full h-full pl-7 py-4">
-          <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
-            <div className="flex w-full h-10  items-center justify-between pl-2">
-              <span className="flex items-center gap-3">
-                <div className="h-[0.6rem] w-[0.6rem] bg-green-500 rounded-full"></div>
-                <div>
-                  <p className="text-[#444]">Todo</p>
-                </div>{" "}
-              </span>
+      <DragDropContext
+        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      >
+        <section className="w-full h-[78vh] grid grid-cols-4">
+          {Object.entries(columns).map(([columnId, column], index) => {
+            return (
+              <div key={index} className="w-full h-full pl-7 py-4">
+                <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
+                  <div className="flex w-full h-10  items-center justify-between pl-2">
+                    <span className="flex items-center gap-3">
+                      <div className="h-[0.6rem] w-[0.6rem] bg-green-500 rounded-full"></div>
+                      <div>
+                        <p className="text-[#444]">{column.name}</p>
+                      </div>{" "}
+                    </span>
 
-              <div className="cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  id="more-vert"
-                >
-                  <path fill="none" d="M0 0h24v24H0V0z"></path>
-                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
-                </svg>
-              </div>
-            </div>
-            <div className="w-full h-14 rounded-md border border-zinc-300 bg-white grid place-items-center cursor-pointer hover:border-zinc-400">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  id="add"
-                  x="0"
-                  y="0"
-                  height="30"
-                  width="30"
-                  version="1.1"
-                  viewBox="0 0 29 29"
-                >
-                  <path
-                    fill="none"
-                    stroke="#000"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-miterlimit="10"
-                    stroke-width="2"
-                    d="M14.5 22V7M7 14.5h15"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-            <div className="w-full h-auto">
+                    <div className="cursor-pointer">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        id="more-vert"
+                      >
+                        <path fill="none" d="M0 0h24v24H0V0z"></path>
+                        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="w-full h-14 rounded-md border border-zinc-300 bg-white grid place-items-center cursor-pointer hover:border-zinc-400">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="add"
+                        x="0"
+                        y="0"
+                        height="30"
+                        width="30"
+                        version="1.1"
+                        viewBox="0 0 29 29"
+                      >
+                        <path
+                          fill="none"
+                          stroke="#000"
+                          strokeLinecap="round"
+                          strokeWidth="2"
+                          d="M14.5 22V7M7 14.5h15"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
 
-
-              <div className="border border-zinc-200 bg-white h-32 rounded">
-
+                  <Droppable droppableId={columnId} key={columnId}>
+                    {(provided, snapshot) => {
+                      return (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          style={{
+                            background: snapshot.isDraggingOver
+                              ? "lightblue"
+                              : "",
+                          }}
+                          className="w-full h-[60vh] tasks-container flex flex-col gap-2 overflow-auto"
+                        >
+                          {column.items.map((item, index) => {
+                            return (
+                              <Draggable
+                                key={item.id}
+                                draggableId={item.id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="border border-zinc-200 bg-white min-h-[10rem] h-32 w-full rounded"
+                                    >
+                                      {item.content}
+                                    </div>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          })}
+                          {provided.placeholder}
+                        </div>
+                      );
+                    }}
+                  </Droppable>
+                </div>
               </div>
-
-            </div>
-          </div>
-        </div>
-        <div className="w-full h-full pl-7 py-4">
-          <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
-            <div className="flex w-full h-10  items-center justify-between pl-2">
-              <span className="flex items-center gap-3">
-                <div className="h-[0.6rem] w-[0.6rem] bg-amber-500 rounded-full"></div>
-                <div>
-                  <p className="text-[#444]">In Progress</p>
-                </div>{" "}
-              </span>
-
-              <div className="cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  id="more-vert"
-                >
-                  <path fill="none" d="M0 0h24v24H0V0z"></path>
-                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
-                </svg>
-              </div>
-            </div>
-            <div className="w-full h-14 rounded-md border border-zinc-300 bg-white grid place-items-center cursor-pointer hover:border-zinc-400">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  id="add"
-                  x="0"
-                  y="0"
-                  height="30"
-                  width="30"
-                  version="1.1"
-                  viewBox="0 0 29 29"
-                >
-                  <path
-                    fill="none"
-                    stroke="#000"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-miterlimit="10"
-                    stroke-width="2"
-                    d="M14.5 22V7M7 14.5h15"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="w-full h-full pl-7 py-4">
-          <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
-            <div className="flex w-full h-10  items-center justify-between pl-2">
-              <span className="flex items-center gap-3">
-                <div className="h-[0.6rem] w-[0.6rem] bg-red-500 rounded-full"></div>
-                <div>
-                  <p className="text-[#444]">Completed</p>
-                </div>{" "}
-              </span>
-              <div className="cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  id="more-vert"
-                >
-                  <path fill="none" d="M0 0h24v24H0V0z"></path>
-                  <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
-                </svg>
-              </div>
-            </div>
-            <div className="w-full h-14 rounded-md border border-zinc-300 bg-white grid place-items-center cursor-pointer hover:border-zinc-400">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  id="add"
-                  x="0"
-                  y="0"
-                  height="30"
-                  width="30"
-                  version="1.1"
-                  viewBox="0 0 29 29"
-                >
-                  <path
-                    fill="none"
-                    stroke="#000"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-miterlimit="10"
-                    stroke-width="2"
-                    d="M14.5 22V7M7 14.5h15"
-                  ></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="w-full h-full px-7 py-4">
-          <div className="w-full h-full border border-zinc-300 rounded"></div>
-        </div>
-      </section>
+            );
+          })}
+        </section>
+      </DragDropContext>
     </main>
   );
 };
