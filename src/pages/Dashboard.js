@@ -977,14 +977,24 @@ const TasksBody = () => {
       >
         <section className="w-full h-[78vh] grid grid-cols-4">
           {Object.entries(columns).map(([columnId, column], index) => {
+            const isRequested = column.name === "Requested";
+            const isTodo = column.name === "To do";
+            const isProgress = column.name === "In Progress";
+            const isDone = column.name === "Done";
             return (
               <div key={index} className="w-full h-full pl-7 py-4">
                 <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
                   <div className="flex w-full h-10  items-center justify-between pl-2">
                     <span className="flex items-center gap-3">
-                      <div className="h-[0.6rem] w-[0.6rem] bg-green-500 rounded-full"></div>
-                      <div>
+                      <div className={`h-[0.6rem] w-[0.6rem]
+                      ${isRequested && "bg-blue-500"}
+                      ${isTodo && "bg-green-500"}
+                      ${isProgress && "bg-amber-500"}
+                      ${isDone && "bg-red-500"}
+                       rounded-full`}></div>
+                      <div className="flex gap-3">
                         <p className="text-[#444]">{column.name}</p>
+                        <p className="">{column.items.length}</p>
                       </div>{" "}
                     </span>
 
@@ -1032,10 +1042,10 @@ const TasksBody = () => {
                           ref={provided.innerRef}
                           style={{
                             background: snapshot.isDraggingOver
-                              ? "lightblue"
+                              ? "#F8E1D7"
                               : "",
                           }}
-                          className="w-full h-[60vh] tasks-container flex flex-col gap-2 overflow-auto"
+                          className="w-full max-h-[60vh] min-h-[10rem] tasks-container p-2 bg-zinc-200 tranisition-all duration-200 ease flex flex-col gap-2 overflow-auto"
                         >
                           {column.items.map((item, index) => {
                             return (
@@ -1051,10 +1061,18 @@ const TasksBody = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className="border border-zinc-200 bg-white min-h-[10rem] h-32 w-full rounded"
-                                    >
-                                      {item.content}
-                                    </div>
+                                      style={{
+                                        userSelect: "none",
+                                        borderColor: snapshot.isDragging
+                                          ? "black"
+                                          : "",
+                                        transform: snapshot.isDragging
+                                          ? "rotate(50deg) !important"
+                                          : "",
+                                        ...provided.draggableProps.style,
+                                      }}
+                                      className="border border-zinc-300 bg-white min-h-[10rem] h-32 w-full rounded"
+                                    ></div>
                                   );
                                 }}
                               </Draggable>
