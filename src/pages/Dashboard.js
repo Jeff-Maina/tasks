@@ -14,7 +14,7 @@ const Dashboard = () => {
         <section className="h-full border-r w-60 relative overflow-hidden">
           <Sidebar />
         </section>
-        <section className="h-full flex-grow">
+        <section className="h-full main-column">
           <NavBar />
           <MainBody />
         </section>
@@ -864,11 +864,117 @@ const TasksBody = () => {
   // dragging logic;
 
   const itemsFromBackend = [
-    { id: "item1", content: "First task" },
-    { id: "item2", content: "Second task" },
-    { id: "item3", content: "Third task" },
-    { id: "item4", content: "Fourth task" },
-    { id: "item5", content: "Fifth task" },
+    {
+      id: "item1",
+      title: "Design the Landing page and add responsiveness to footer",
+      priority: "High",
+      tag: "Design",
+      subtasks: [
+        {
+          title: "Create wireframes",
+          status: "Incomplete",
+        },
+        {
+          title: "Design mockups",
+          status: "Incomplete",
+        },
+        {
+          title: "Collect feedback",
+          status: "Incomplete",
+        },
+        {
+          title: "Implement changes",
+          status: "Incomplete",
+        },
+        {
+          title: "Finalize designs",
+          status: "Incomplete",
+        },
+      ],
+      color: "teal",
+      description:
+        "This is a short description about the project above and it is acting as a placeholder and nothing more",
+    },
+    {
+      id: "item2",
+      title: "Deploy the bkmrk backend",
+      priority: "Low",
+      tag: "Development",
+      subtasks: [
+        {
+          title: "Create wireframes",
+          status: "Incomplete",
+        },
+        {
+          title: "Design mockups",
+          status: "Incomplete",
+        },
+      ],
+      color: "purple",
+      description:
+        "This is a short description about the project above and it is acting as a placeholder and nothing more",
+    },
+    {
+      id: "item3",
+      title: "Check out some websites",
+      priority: "Medium",
+      tag: "Web dev",
+      subtasks: [
+        {
+          title: "Create wireframes",
+          status: "Incomplete",
+        },
+        {
+          title: "Design mockups",
+          status: "Incomplete",
+        },
+        {
+          title: "Collect feedback",
+          status: "Incomplete",
+        },
+        {
+          title: "Finalize designs",
+          status: "Incomplete",
+        },
+      ],
+      color: "lime",
+      description:
+        "This is a short description about the project above and it is acting as a placeholder and nothing more",
+    },
+    {
+      id: "item4",
+      title: "Complete my assigment",
+      priority: "High",
+      tag: "Assignment",
+      subtasks: [
+        {
+          title: "Create wireframes",
+          status: "Incomplete",
+        },
+      ],
+      color: "emerald",
+      description:
+        "This is a short description about the project above and it is acting as a placeholder and nothing more",
+    },
+    {
+      id: "item5",
+      title: "Take a nap",
+      priority: "High",
+      tag: "Leisure",
+      subtasks: [
+        {
+          title: "Create wireframes",
+          status: "Incomplete",
+        },
+        {
+          title: "Design mockups",
+          status: "Incomplete",
+        },
+      ],
+      color: "purple",
+      description:
+        "This is a short description about the project above and it is acting as a placeholder and nothing more",
+    },
   ];
 
   const columnsFromBackend = {
@@ -986,12 +1092,14 @@ const TasksBody = () => {
                 <div className="w-full h-full border bg-zinc-50 task-column border-zinc-200 p-2 rounded-lg flex flex-col gap-2">
                   <div className="flex w-full h-10  items-center justify-between pl-2">
                     <span className="flex items-center gap-3">
-                      <div className={`h-[0.6rem] w-[0.6rem]
+                      <div
+                        className={`h-[0.6rem] w-[0.6rem]
                       ${isRequested && "bg-blue-500"}
                       ${isTodo && "bg-green-500"}
                       ${isProgress && "bg-amber-500"}
                       ${isDone && "bg-red-500"}
-                       rounded-full`}></div>
+                       rounded-full`}
+                      ></div>
                       <div className="flex gap-3">
                         <p className="text-[#444]">{column.name}</p>
                         <p className="">{column.items.length}</p>
@@ -1048,6 +1156,11 @@ const TasksBody = () => {
                           className="w-full max-h-[60vh] min-h-[10rem] tasks-container p-2 bg-zinc-200 tranisition-all duration-200 ease flex flex-col gap-2 overflow-auto"
                         >
                           {column.items.map((item, index) => {
+                            const colors = "purple";
+                            const bgColor = `bg-${item.color}-200`;
+                            const borderColor = `border-${item.color}-400`;
+                            const textColor = `text-${item.color}-600`;
+                            console.log(borderColor, textColor);
                             return (
                               <Draggable
                                 key={item.id}
@@ -1071,8 +1184,80 @@ const TasksBody = () => {
                                           : "",
                                         ...provided.draggableProps.style,
                                       }}
-                                      className="border border-zinc-300 bg-white min-h-[10rem] h-32 w-full rounded"
-                                    ></div>
+                                      className="border border-zinc-300 bg-white h-auto w-full rounded p-3 flex flex-col gap-3"
+                                    >
+                                      <div className="w-full flex gap-2 items-center">
+                                        <div
+                                          className={`border 
+                                          ${
+                                            item.priority === "High" &&
+                                            "bg-red-200 border-red-600 text-red-700"
+                                          } 
+                                          ${
+                                            item.priority === "Low" &&
+                                            "bg-green-200 border-green-600 text-green-700"
+                                          } 
+                                          ${
+                                            item.priority === "Medium" &&
+                                            "bg-blue-200 border-blue-600 text-blue-700"
+                                          } 
+
+                                          rounded-full px-2`}
+                                        >
+                                          <p className="text-sm">
+                                            {item.priority}
+                                          </p>
+                                        </div>
+                                        <div
+                                          className={`border
+                                          ${
+                                            item.color === "purple" &&
+                                            "bg-purple-200 border-purple-600 text-purple-700"
+                                          }
+                                          ${
+                                            item.color === "lime" &&
+                                            "bg-lime-200 border-lime-600 text-lime-700"
+                                          }
+                                          ${
+                                            item.color === "teal" &&
+                                            "bg-teal-200 border-teal-600 text-teal-700"
+                                          }
+                                          ${
+                                            item.color === "emerald" &&
+                                            "bg-emerald-200 border-emerald-600 text-emerald-700"
+                                          }
+                                          rounded-full px-2`}
+                                        >
+                                          <p className="text-sm font-regular">
+                                            {item.tag}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div className="w-full flex flex-col gap-1">
+                                        <h1 className="text-lg font-medium text-[#444] max-w-full break-words h-auto">
+                                          {item.title}
+                                        </h1>{" "}
+                                        <p className="break-words h-auto text-md text-[#888]">
+                                          {item.description}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <ul className="px-2 flex flex-col gap-1">
+                                          {item.subtasks.map((subtask) => {
+                                            console.log(subtask);
+                                            return (
+                                              <li className="flex items-center gap-2">
+                                                <input
+                                                  type="checkbox"
+                                                  className="subtask-checkbox"
+                                                />
+                                                <p className="text-[15px] text-[#222]">{subtask.title}</p>
+                                              </li>
+                                            );
+                                          })}
+                                        </ul>
+                                      </div>
+                                    </div>
                                   );
                                 }}
                               </Draggable>
