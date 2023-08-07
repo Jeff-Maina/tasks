@@ -866,7 +866,7 @@ const TasksBody = () => {
         },
         {
           title: "Design mockups",
-          status: "Incomplete",
+          status: "Complete",
         },
         {
           title: "Collect feedback",
@@ -874,7 +874,7 @@ const TasksBody = () => {
         },
         {
           title: "Implement changes",
-          status: "Incomplete",
+          status: "Complete",
         },
         {
           title: "Finalize designs",
@@ -893,11 +893,11 @@ const TasksBody = () => {
       subtasks: [
         {
           title: "Create wireframes",
-          status: "Incomplete",
+          status: "Complete",
         },
         {
           title: "Design mockups",
-          status: "Incomplete",
+          status: "Complete",
         },
       ],
       color: "purple",
@@ -924,7 +924,7 @@ const TasksBody = () => {
         },
         {
           title: "Finalize designs",
-          status: "Incomplete",
+          status: "Complete",
         },
       ],
       color: "lime",
@@ -1173,7 +1173,8 @@ const TasksBody = () => {
                                   };
                                   const dismissSubtaskForm = (e) => {
                                     let input = e.target.parentNode.parentNode;
-                                    e.target.parentNode.previousElementSibling.value = "";
+                                    e.target.parentNode.previousElementSibling.value =
+                                      "";
                                     const isInputHidden =
                                       input.className.includes("hidden");
                                     if (!isInputHidden) {
@@ -1181,6 +1182,14 @@ const TasksBody = () => {
                                       input.classList.add("hidden");
                                     }
                                   };
+
+                                  const percentageSubtasksCompleted =
+                                    (item.subtasks.filter(
+                                      (task) => task.status === "Complete"
+                                    ).length /
+                                      item.subtasks.length) *
+                                    100;
+
                                   return (
                                     <div
                                       key={index}
@@ -1320,7 +1329,7 @@ const TasksBody = () => {
                                           </div>
                                         </div>
                                         <div className="px-2 text-[#666] mt-2">
-                                          <hr className="mb-2"/>
+                                          <hr className="mb-2" />
                                           <span
                                             onClick={(e) => {
                                               let input =
@@ -1341,6 +1350,57 @@ const TasksBody = () => {
                                           >
                                             + Add Subtask
                                           </span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                          <div className="h-2 rounded-full overflow-hidden w-[85%] bg-zinc-300 flex items-center justify-start">
+                                            <div
+                                              style={{
+                                                width: `${percentageSubtasksCompleted}%`,
+                                              }}
+                                              className={`h-full rounded-full ${
+                                                percentageSubtasksCompleted <
+                                                  20 && "bg-red-600"
+                                              } ${
+                                                (percentageSubtasksCompleted <
+                                                  40 &&
+                                                percentageSubtasksCompleted >=
+                                                  20) &&
+                                                "bg-red-400"
+                                              }
+
+                                              ${
+                                               ( percentageSubtasksCompleted <
+                                                  60 &&
+                                                percentageSubtasksCompleted >=
+                                                  40) &&
+                                                "bg-green-400"
+                                              }
+
+                                              ${
+                                                ( percentageSubtasksCompleted <
+                                                   80 &&
+                                                 percentageSubtasksCompleted >=
+                                                   60) &&
+                                                 "bg-green-600"
+                                               }   ${
+                                                ( percentageSubtasksCompleted >
+                                                   80  &&
+                                                 "bg-lime-600")
+                                               }
+                                              `}
+                                            ></div>
+                                          </div>
+                                          <div>
+                                            <span>
+                                              {
+                                                item.subtasks.filter(
+                                                  (task) =>
+                                                    task.status === "Complete"
+                                                ).length
+                                              }
+                                              /{item.subtasks.length}
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
