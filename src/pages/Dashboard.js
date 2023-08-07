@@ -842,16 +842,6 @@ const TasksBody = () => {
 
   const [characters, updateCharacters] = useState(finalSpaceCharacters);
 
-  function handleOnDragEnd(result) {
-    if (!result.destination) return;
-
-    const items = Array.from(characters);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    updateCharacters(items);
-  }
-
   const [activeView, setActiveView] = useState("Board");
   const boardView = activeView === "Board";
   const tableView = activeView === "Table";
@@ -976,11 +966,12 @@ const TasksBody = () => {
         "This is a short description about the project above and it is acting as a placeholder and nothing more",
     },
   ];
+  const [items, setItems] = useState(itemsFromBackend);
 
   const columnsFromBackend = {
     column1: {
       name: "Requested",
-      items: itemsFromBackend,
+      items: items,
     },
     column2: {
       name: "To do",
@@ -997,7 +988,6 @@ const TasksBody = () => {
   };
 
   const [columns, setColumns] = useState(columnsFromBackend);
-
   const onDragEnd = (result, columns, setColumns) => {
     if (!result.destination) return;
     const { source, destination } = result;
@@ -1168,6 +1158,29 @@ const TasksBody = () => {
                                 index={index}
                               >
                                 {(provided, snapshot) => {
+                                  const addSubtask = (e) => {
+                                    let title =
+                                      e.target.parentNode.previousElementSibling
+                                        .value;
+                                    let subtasksArr = item.subtasks;
+                                    let subtaskObj = {
+                                      title,
+                                      status: "Incomplete",
+                                    };
+                                    subtasksArr.push(subtaskObj);
+                                    setItems([...items, item]);
+                                    console.log(subtasksArr);
+                                  };
+                                  const dismissSubtaskForm = (e) => {
+                                    let input = e.target.parentNode.parentNode;
+                                    e.target.parentNode.previousElementSibling.value = "";
+                                    const isInputHidden =
+                                      input.className.includes("hidden");
+                                    if (!isInputHidden) {
+                                      input.classList.remove("flex");
+                                      input.classList.add("hidden");
+                                    }
+                                  };
                                   return (
                                     <div
                                       key={index}
@@ -1242,20 +1255,93 @@ const TasksBody = () => {
                                         </p>
                                       </div>
                                       <div>
-                                        <ul className="px-2 flex flex-col gap-1">
+                                        <ul className="p-2 pt-0 flex flex-col gap-1">
                                           {item.subtasks.map((subtask) => {
                                             console.log(subtask);
+
                                             return (
                                               <li className="flex items-center gap-2">
                                                 <input
                                                   type="checkbox"
                                                   className="subtask-checkbox"
                                                 />
-                                                <p className="text-[15px] text-[#222]">{subtask.title}</p>
+                                                <p className="text-[15px] text-[#222]">
+                                                  {subtask.title}
+                                                </p>
                                               </li>
                                             );
                                           })}
                                         </ul>
+                                        <div className="mx-2 h-9 hidden border border-zinc-400 rounded items-center justify-between pr-1">
+                                          <input
+                                            type="text"
+                                            className="rounded p-1 px-2 outline-none placeholder:text-sm"
+                                            placeholder="New Subtask.."
+                                          />
+                                          <div className="flex h-full items-center pr-2">
+                                            <div
+                                              onClick={(e) => {
+                                                addSubtask(e);
+                                                dismissSubtaskForm(e);
+                                              }}
+                                              className="cursor-pointer"
+                                            >
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="35"
+                                                height="35"
+                                                viewBox="0 0 512 512"
+                                                id="tick"
+                                                className="pointer-events-none"
+                                              >
+                                                <path d="M223.9 329.7c-2.4 2.4-5.8 4.4-8.8 4.4s-6.4-2.1-8.9-4.5l-56-56 17.8-17.8 47.2 47.2L340 177.3l17.5 18.1-133.6 134.3z"></path>
+                                              </svg>
+                                            </div>{" "}
+                                            <div
+                                              onClick={(e) => {
+                                                dismissSubtaskForm(e);
+                                              }}
+                                              className="cursor-pointer"
+                                            >
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24"
+                                                id="cancel"
+                                                width="25"
+                                                height="25"
+                                                className="pointer-events-none"
+                                              >
+                                                <path
+                                                  strokeWidth="1"
+                                                  d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"
+                                                ></path>
+                                              </svg>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="px-2 text-[#666] mt-2">
+                                          <hr className="mb-2"/>
+                                          <span
+                                            onClick={(e) => {
+                                              let input =
+                                                e.target.parentNode
+                                                  .previousElementSibling;
+                                              const isInputHidden =
+                                                input.className.includes(
+                                                  "hidden"
+                                                );
+                                              if (isInputHidden) {
+                                                input.classList.remove(
+                                                  "hidden"
+                                                );
+                                                input.classList.add("flex");
+                                              }
+                                            }}
+                                            className="cursor-pointer"
+                                          >
+                                            + Add Subtask
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
                                   );
