@@ -866,7 +866,7 @@ const TasksBody = () => {
         },
         {
           title: "Design mockups",
-          status: "Complete",
+          status: "Incomplete",
         },
         {
           title: "Collect feedback",
@@ -874,7 +874,7 @@ const TasksBody = () => {
         },
         {
           title: "Implement changes",
-          status: "Complete",
+          status: "Incomplete",
         },
         {
           title: "Finalize designs",
@@ -893,11 +893,11 @@ const TasksBody = () => {
       subtasks: [
         {
           title: "Create wireframes",
-          status: "Complete",
+          status: "Incomplete",
         },
         {
           title: "Design mockups",
-          status: "Complete",
+          status: "Incomplete",
         },
       ],
       color: "purple",
@@ -924,7 +924,7 @@ const TasksBody = () => {
         },
         {
           title: "Finalize designs",
-          status: "Complete",
+          status: "Incomplete",
         },
       ],
       color: "lime",
@@ -1266,11 +1266,23 @@ const TasksBody = () => {
                                       <div>
                                         <ul className="p-2 pt-0 flex flex-col gap-1">
                                           {item.subtasks.map((subtask) => {
-                                            console.log(subtask);
-
+                                            const markDone = () => {
+                                              if (
+                                                subtask.status === "Complete"
+                                              ) {
+                                                subtask.status = "Incomplete";
+                                                console.log(item)
+                                                setItems([...items, item]);
+                                              } else {
+                                                subtask.status = "Complete";
+                                                console.log(item)
+                                                setItems([...items, item]);
+                                              }
+                                            };
                                             return (
                                               <li className="flex items-center gap-2">
                                                 <input
+                                                  onClick={markDone}
                                                   type="checkbox"
                                                   className="subtask-checkbox"
                                                 />
@@ -1361,32 +1373,31 @@ const TasksBody = () => {
                                                 percentageSubtasksCompleted <
                                                   20 && "bg-red-600"
                                               } ${
-                                                (percentageSubtasksCompleted <
+                                                percentageSubtasksCompleted <
                                                   40 &&
                                                 percentageSubtasksCompleted >=
-                                                  20) &&
+                                                  20 &&
                                                 "bg-red-400"
                                               }
 
                                               ${
-                                               ( percentageSubtasksCompleted <
+                                                percentageSubtasksCompleted <
                                                   60 &&
                                                 percentageSubtasksCompleted >=
-                                                  40) &&
+                                                  40 &&
                                                 "bg-green-400"
                                               }
 
                                               ${
-                                                ( percentageSubtasksCompleted <
-                                                   80 &&
-                                                 percentageSubtasksCompleted >=
-                                                   60) &&
-                                                 "bg-green-600"
-                                               }   ${
-                                                ( percentageSubtasksCompleted >
-                                                   80  &&
-                                                 "bg-lime-600")
-                                               }
+                                                percentageSubtasksCompleted <
+                                                  80 &&
+                                                percentageSubtasksCompleted >=
+                                                  60 &&
+                                                "bg-green-600"
+                                              }   ${
+                                                percentageSubtasksCompleted >=
+                                                  80 && "bg-lime-600"
+                                              }
                                               `}
                                             ></div>
                                           </div>
