@@ -8,8 +8,19 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Lexend Deca !important;
+  font-family: Lexend Deca;
+  overflow-y: hidden;
   /* overflow: hidden; */
+}
+
+*::-webkit-scrollbar{
+  background-color: transparent  !important;
+  height: 5px !important;
+}
+
+*::-webkit-scrollbar-thumb{
+  background: #000;
+  height: 2px !important;
 }
 
 .projects-container {
@@ -52,7 +63,7 @@ input[type="radio"]:checked {
 }
 
 .task-column {
-  background-color: #f2f2f28e;
+  background-color: #f2f2f263;
 }
 
 .tasks-container::-webkit-scrollbar {
@@ -60,7 +71,7 @@ input[type="radio"]:checked {
 }
 
 .main-column {
-  width: calc(100% - 16rem);
+  /* width: calc(100% - 16rem); */
 }
 
 .subtask-checkbox {
